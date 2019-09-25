@@ -1,7 +1,8 @@
 language: java
 
-after_deploy:
+before_deploy:
   - ./gradlew war
+  - ls -l
 
 deploy:
   provider: script
