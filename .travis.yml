@@ -1,1 +1,11 @@
 language: java
+
+after_deploy:
+  - ./gradlew war
+
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    branch: development
+
