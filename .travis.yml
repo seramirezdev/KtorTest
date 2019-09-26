@@ -5,7 +5,7 @@ env:
     - DEPLOY_KEY=keyservertomcat
 
 before_deploy:
-  - ssh-keyscan -t rsa -H $HOST_IP >> ${TRAVIS_HOME}/.ssh/known_hosts
+  - ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H $HOST_IP >> ${TRAVIS_HOME}/.ssh/known_hosts
   - openssl aes-256-cbc -K $encrypted_7f45f662eb7c_key -iv $encrypted_7f45f662eb7c_iv -in $DEPLOY_KEY.enc -out /tmp/$DEPLOY_KEY -d
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/$DEPLOY_KEY
