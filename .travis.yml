@@ -7,7 +7,7 @@ before_install:
   - ssh-add /tmp/keyseminariogcp
 
 before_deploy:
-  - ./gradlew war
+  # - ./gradlew war
   - cd build/libs
   - ls -l
 
