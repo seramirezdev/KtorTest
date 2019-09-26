@@ -1,11 +1,19 @@
 language: java
 
+before_install:
+  - openssl aes-256-cbc -K $encrypted_7f45f662eb7c_key -iv $encrypted_7f45f662eb7c_iv -in keyseminariogcp.enc -out /tmp/keyseminariogcp -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/keyseminariogcp
+  - ssh-add /tmp/keyseminariogcp
+
 before_deploy:
   - ./gradlew war
+  - cd build/libs
   - ls -l
 
 deploy:
   provider: script
+  skip_cleanup: true
   script: bash scripts/deploy.sh
   on:
     branch: development
