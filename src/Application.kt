@@ -27,7 +27,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            val name: String = "Sergio Rampirez"
+            val name: String = "Sergio Ramirez"
             call.respondText("HELLO WORLD ${name}!", contentType = ContentType.Text.Plain)
         }
 
