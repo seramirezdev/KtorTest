@@ -1,5 +1,8 @@
 language: java
 
+addons:
+  ssh_known_hosts: $HOST_IP
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_7f45f662eb7c_key -iv $encrypted_7f45f662eb7c_iv -in keyseminariogcp.enc -out /tmp/keyseminariogcp -d
   - eval "$(ssh-agent -s)"
@@ -8,7 +11,7 @@ before_install:
 
 deploy:
   provider: script
-  script: bash ./scripts/deploy.sh
+  script: rsync -v ./build/libs/KtorServer-0.0.1.war $USER_HOST@$HOST_IP:$DIR_DEPLOY
   skip_cleanup: true
   on:
     branch: development
