@@ -7,11 +7,11 @@ before_install:
   - ssh-add /tmp/keyservertomcat
 
 before_deploy:
-  - ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H $HOST_IP 2>&1 | tee -a ${TRAVIS_HOME}/.ssh/known_hosts
+  - ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H ${HOST_IP} 2>&1 | tee -a ${TRAVIS_HOME}/.ssh/known_hosts
 
 deploy:
   provider: script
-  script: ./scripts/deploy.sh
+  script: bash ./scripts/deploy.sh
   skip_cleanup: true
   on:
     branch: development
