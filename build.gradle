@@ -17,7 +17,7 @@ apply plugin: 'org.sonarqube'
 
 sonarqube {
     properties {
-        property "projectKey", "seramirezdev_KtorTest"
+        property "sonar.projectKey", "seramirezdev_KtorTest"
         property "sonar.branch.name", "development"
     }
 }
