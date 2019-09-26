@@ -27,7 +27,8 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+            val name: String = "Sergio Rampirez"
+            call.respondText("HELLO WORLD ${name}!", contentType = ContentType.Text.Plain)
         }
 
         get("/json/gson") {
