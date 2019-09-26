@@ -11,7 +11,7 @@ addons:
       secure: "qBDmSS5tY0TYaXRzD9R55XJ+N36AJAfyNQ0y/XkpwZPyI3vFuk3Hb37RmK3174xzFKUy9xJDBDC8nyqd19GJnT6HxdXKh11QLtmJy2Bm5TndAbyfuPQVJG2S0c0H6T63bD+dtsRV/uiFJdP6q9icN3hPdrfVvk2MNlS9p5nk2XjZTebi5hrSKv2MXYrwwd6snzdFqzCuzDMGvreBUU5ZNVv2cVYYuhJIVh9O2qf8Gi33Y0S0aOSrxlCzWjWx2xsWku7iqQkMQcV5OOsvIAO/0WyQzIV6kDjk1wBsQCnKc087WPJFzvxkD0yQdWh8oVNVgsxo/h1ZWnSCX/9dxjui+Q2kkJAiEPHMo9rbIHe5zzgel9jbJzLPUiZfzFOJ+f4D31zj9NdARVPTrZAbmkYXZeMfC8k6P1H/3Y9CWnt2yfyjqFHY95hlIklhtMMwd9VPZJTHwb0sG5SdJZahdy5mHJwC9Dfl5c8PYI/C7RJFn2J77f3S4TwfU/0buQOENnNgabWN6hkvGFT4RKtXDu9tX1SHWFfHUf3ySUurT2hOh5InI/KLuZ1bv3D0waunfiGSLFCJJbAUKMSSmbTY/vEvVNRmsuoXXT4NHb1jR6XgAqu2zex8j3PX7cpsGWVQAwAl2IibOoGufVoth4WFxHbBT1NaKHB1QDaPZqTtO0b4/HY="
 
 script:
-  - sonar-scanner
+  - ./gradlew sonarqube
 
 before_deploy:
   - ssh-keyscan -t rsa -H $HOST_IP >> ${TRAVIS_HOME}/.ssh/known_hosts
