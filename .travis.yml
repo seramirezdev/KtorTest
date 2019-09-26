@@ -5,17 +5,11 @@ before_install:
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/keyseminariogcp
   - ssh-add /tmp/keyseminariogcp
-  - sudo chmod 777 scripts/deploy.sh
-
-before_deploy:
-  # - ./gradlew war
-  - cd build/libs
-  - ls -l
 
 deploy:
   provider: script
   skip_cleanup: true
-  script: bash scripts/deploy.sh
+  script: "./scripts/deploy.sh"
   on:
     branch: development
 
