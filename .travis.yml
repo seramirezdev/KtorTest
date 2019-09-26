@@ -5,14 +5,8 @@ env:
   global:
     - DEPLOY_KEY=keyservertomcat
 
-addons:
-  sonarcloud:
-    organization: "seramirezdev"
-    token:
-      secure: "UIlmyrsxKmgyFoHs/+uuliBWe+1hXDOHtUIoBB9rmqUK3F3qx9JvsfY+QQU6bgPm2atUrCvRJIZx/M5xXF5guoevQosOcmrLtvOKWIoyxbk18q9j9Ibf/CmqsUsB4V8rGIDPGOZOoGiA/SUJd8kZbVZ94QpPfgqQKY4/2MGo/u+lFUxpXSevsTaMVOWh4KW1gmU8WKMRCxZBWO721zK0zWFtZUOXacNtttUlson0pD6gfxEw/s6PxZBiCBgAIoi6SXzMhW8SA+NpN2oQcvdC/wIDIlDengIzw4Qhi9lA1U7AF5EUouOj8+B2iYsI+feAsRL2LNyRQrrUFFFLcWDNhASVeVfwkqiTRT1OyrWPr/LbN4XTdhktpzvC8Hb/jlbFL9Wdl6oRxZKHQQZ4K690R1WQ3Cj4E3oPZ6lV4EzEMkzio6VBmOqP5Q8ccghbtQpF50y0nPzSjF+nZux4iJnbXOLVrjjZV7lP8EEOMjKEHj+zNiaVYk4a1WfixnA+zdDEyTDsYApSRcAPJv4dnXPk2Ufk2WHzbvEmSh1ZMQrce8OXgfjzKhrbJo8HuvhGHMKQAE6bujmRDLC2JZ83tOmffElKzg5qczEBZm9npAJHE0l0SRHcDZW0Gv3CSpWfAl2pTc/F6DtcHb6MMDc9OfCYdjjHwUAgBXn4Blz1P+z7jA8="
-
 script:
-  - sudo ./gradlew sonarqube
+  - ./gradlew sonarqube -Dsonar.projectKey=seramirezdev_KtorTest -Dsonar.organization=seramirezdev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=d9e3256404e32918c21e69feb0bb81ef831a4415
 
 cache:
   directories:

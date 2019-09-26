@@ -15,13 +15,6 @@ apply plugin: 'war'
 apply plugin: 'application'
 apply plugin: 'org.sonarqube'
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "seramirezdev_KtorTest"
-        property "sonar.branch.name", "development"
-    }
-}
-
 webAppDirName = 'webapp'
 
 group 'com.seramirezdev'
