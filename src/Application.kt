@@ -18,6 +18,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     install(Authentication) {
+
     }
 
     install(ContentNegotiation) {
@@ -27,7 +28,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            val name: String = "Sergio Ramirez"
+            val name: String = "Andres Rojas"
             call.respondText("HELLO WORLD ${name}!", contentType = ContentType.Text.Plain)
         }
 
