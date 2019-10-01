@@ -1,17 +1,6 @@
 package com.seramirezdev
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.auth.*
-import io.ktor.gson.*
-import io.ktor.features.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
-import kotlin.test.*
-import io.ktor.server.testing.*
+import kotlin.test.Test
 
 class ApplicationTest {
     @Test

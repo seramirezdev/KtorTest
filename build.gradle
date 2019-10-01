@@ -39,10 +39,11 @@ dependencies {
     compile "io.ktor:ktor-server-tomcat:$ktor_version"
     compile "ch.qos.logback:logback-classic:$logback_version"
     compile "io.ktor:ktor-server-core:$ktor_version"
-    compile "io.ktor:ktor-auth:$ktor_version"
+    compile "io.ktor:ktor-auth-jwt:$ktor_version"
     compile "io.ktor:ktor-gson:$ktor_version"
-    compile "io.ktor:ktor-client-core:$ktor_version"
-    compile "io.ktor:ktor-client-core-jvm:$ktor_version"
-    compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "org.jetbrains.exposed:exposed:$exposed_version"
+    compile "org.postgresql:postgresql:$postgresql_version"
+    compile "com.zaxxer:HikariCP:$hikari_version"
+
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
 }
