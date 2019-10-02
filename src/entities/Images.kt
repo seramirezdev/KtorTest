@@ -1,3 +1,3 @@
 package com.seramirezdev.entities
 
-data class Images(val id: Int, val path: String, val place: Place)
+data class Image(var id: Int = 0, var path: String = "", var place: Place? = null)

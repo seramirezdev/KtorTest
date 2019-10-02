@@ -2,25 +2,18 @@ package com.seramirezdev
 
 import com.seramirezdev.config.DatabaseFactory
 import com.seramirezdev.config.JWTConfig
-import com.seramirezdev.endpoints.auth
+import com.seramirezdev.endpoints.*
+import com.seramirezdev.repositories.CommentRepository
+import com.seramirezdev.repositories.PlaceRepository
 import com.seramirezdev.repositories.UserRepository
-import com.seramirezdev.security.authenticateUser
 import io.ktor.application.Application
-import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.authenticate
 import io.ktor.auth.jwt.jwt
-import io.ktor.features.CORS
-import io.ktor.features.CallLogging
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
+import io.ktor.features.*
 import io.ktor.gson.gson
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
 import io.ktor.routing.Routing
-import io.ktor.routing.get
-import io.ktor.routing.route
 
 fun main(args: Array<String>): Unit = io.ktor.server.tomcat.EngineMain.main(args)
 
@@ -32,11 +25,14 @@ fun Application.module(testing: Boolean = false) {
 
     install(CallLogging)
     install(DefaultHeaders)
+    install(AutoHeadResponse)
     install(CORS) {
         anyHost()
     }
 
     val userRepository = UserRepository()
+    val placesRepository = PlaceRepository()
+    val commentRepository = CommentRepository()
 
     install(Authentication) {
         jwt {
@@ -60,13 +56,11 @@ fun Application.module(testing: Boolean = false) {
         auth(userRepository)
 
         authenticate {
-            route("users") {
-                get {
-                    call.authenticateUser!!
-                    call.respond(HttpStatusCode.OK, userRepository.getAllUsers())
-                }
-            }
+            placeEndpoint(placesRepository)
+            userEndpoint(userRepository)
+            commentEndpoint(commentRepository)
+            imagesEndpoint()
+
         }
     }
 }
-

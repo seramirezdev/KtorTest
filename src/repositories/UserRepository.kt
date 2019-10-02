@@ -30,9 +30,27 @@ class UserRepository {
         UserDAO.all().map { toUser(it) }
     }
 
-    fun toUser(user: UserDAO) = User(
-        id = user.id.value,
-        username = user.username,
-        name = user.name
-    )
+    fun insertUser(user: User): User? {
+        var createdUser: User? = null
+
+        transaction {
+            val userDAO = UserDAO.new {
+                name = user.name
+                username = user.username
+                password = user.password!!
+            }
+
+            createdUser = toUser(userDAO)
+        }
+
+        return createdUser
+    }
+
+    companion object {
+        fun toUser(user: UserDAO) = User(
+            id = user.id.value,
+            username = user.username,
+            name = user.name
+        )
+    }
 }

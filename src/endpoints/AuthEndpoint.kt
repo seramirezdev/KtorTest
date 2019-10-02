@@ -1,6 +1,7 @@
 package com.seramirezdev.endpoints
 
 import com.seramirezdev.config.JWTConfig
+import com.seramirezdev.entities.User
 import com.seramirezdev.repositories.UserRepository
 import com.seramirezdev.responses.Message
 import io.ktor.application.call
@@ -27,6 +28,13 @@ fun Route.auth(userRepository: UserRepository) {
     }
 
     post("register") {
+        val user = call.receive<User>()
+        val createdUser = userRepository.insertUser(user)
 
+        if (createdUser == null) {
+            call.respond(HttpStatusCode.NotAcceptable, Message(message = "No se pudo crear el usuario"))
+        } else {
+            call.respond(HttpStatusCode.OK, createdUser)
+        }
     }
 }
