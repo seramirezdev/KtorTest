@@ -1,0 +1,37 @@
+language: java
+sudo: true
+
+env:
+  global:
+    - DEPLOY_KEY=keyservertomcat
+
+script:
+  - ./gradlew sonarqube -Dsonar.projectKey=seramirezdev_KtorTest -Dsonar.organization=seramirezdev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=d9e3256404e32918c21e69feb0bb81ef831a4415
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - '$TRAVIS_HOME/.sonar/cache'
+    - '$HOME/.gradle/caches/'
+    - '$HOME/.gradle/wrapper/'
+
+before_deploy:
+  - ssh-keyscan -t rsa -H $HOST_IP >> ${TRAVIS_HOME}/.ssh/known_hosts
+  - openssl aes-256-cbc -K $encrypted_7f45f662eb7c_key -iv $encrypted_7f45f662eb7c_iv -in $DEPLOY_KEY.enc -out /tmp/$DEPLOY_KEY -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/$DEPLOY_KEY
+  - ssh-add /tmp/$DEPLOY_KEY
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: bash ./scripts/deploy.sh
+  on:
+    all_branches: true
+
+after_deploy:
+  - ssh-add -D /tmp/$DEPLOY_KEY
+  - rm /tmp/$DEPLOY_KEY
