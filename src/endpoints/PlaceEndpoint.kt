@@ -65,7 +65,7 @@ private fun getParamsToPlace(params: MultiPartData): Place {
                         "location" -> place.location = part.value
                     }
                 }
-                is PartData.FileItem -> {
+                /*is PartData.FileItem -> {
                     val root = "$PATH_IMAGES/$PUBLIC_DIR_IMAGE"
                     val extension = File(part.originalFileName!!).extension
                     val fileName = "${System.currentTimeMillis()}.$extension"
@@ -76,7 +76,7 @@ private fun getParamsToPlace(params: MultiPartData): Place {
                             file.outputStream().buffered().use { output -> input.copyTo(output) }
                         }
                     imagesList.add(Image(path = fileName))
-                }
+                }*/
             }
             part.dispose()
         }
