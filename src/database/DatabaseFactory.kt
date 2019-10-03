@@ -1,4 +1,4 @@
-package com.seramirezdev.config
+package com.seramirezdev.database
 
 import com.seramirezdev.dto.Comments
 import com.seramirezdev.dto.Images

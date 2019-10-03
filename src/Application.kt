@@ -1,6 +1,6 @@
 package com.seramirezdev
 
-import com.seramirezdev.config.DatabaseFactory
+import com.seramirezdev.database.DatabaseFactory
 import com.seramirezdev.config.JWTConfig
 import com.seramirezdev.endpoints.*
 import com.seramirezdev.repositories.CommentRepository
@@ -39,7 +39,6 @@ fun Application.module(testing: Boolean = false) {
             verifier(JWTConfig.verifier)
             realm = JWTConfig.issuer
             validate {
-
                 it.payload.getClaim("username").asString()?.let(userRepository::findUserByUsername)
             }
         }
@@ -60,7 +59,6 @@ fun Application.module(testing: Boolean = false) {
             userEndpoint(userRepository)
             commentEndpoint(commentRepository)
             imagesEndpoint()
-
         }
     }
 }

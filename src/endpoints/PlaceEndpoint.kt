@@ -18,7 +18,8 @@ import io.ktor.routing.*
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
-const val PATH_IMAGES = "/home/sergio/Desarrollo/SpringBoot/images"
+// const val PATH_IMAGES = "/home/sergio/Desarrollo/SpringBoot/images"
+const val PATH_IMAGES = "/home/seminariouniajc201901/images"
 const val PUBLIC_DIR_IMAGE = "public"
 
 fun Route.placeEndpoint(placeRepository: PlaceRepository) {
@@ -68,16 +69,13 @@ private fun getParamsToPlace(params: MultiPartData): Place {
                     val root = "$PATH_IMAGES/$PUBLIC_DIR_IMAGE"
                     val extension = File(part.originalFileName!!).extension
                     val fileName = "${System.currentTimeMillis()}.$extension"
-                    print(fileName)
 
                     val file = File(root, fileName)
                     part.streamProvider()
                         .use { input ->
                             file.outputStream().buffered().use { output -> input.copyTo(output) }
                         }
-                    val image = Image(path = fileName)
-                    println(image)
-                    imagesList.add(image)
+                    imagesList.add(Image(path = fileName))
                 }
             }
             part.dispose()

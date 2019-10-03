@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 
 object Users : IntIdTable() {
     val name = varchar("name", length = 30)
-    val username = varchar("username", length = 50)
+    val username = varchar("username", length = 50).uniqueIndex()
     val password = varchar("password", length = 50)
 }
 

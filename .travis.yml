@@ -23,8 +23,6 @@ deploy:
   provider: script
   skip_cleanup: true
   script: bash ./scripts/deploy.sh
-  on:
-    branch: development
 
 after_deploy:
   - ssh-add -D /tmp/$DEPLOY_KEY
