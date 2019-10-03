@@ -8,9 +8,15 @@ env:
 script:
   - ./gradlew sonarqube -Dsonar.projectKey=seramirezdev_KtorTest -Dsonar.organization=seramirezdev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=d9e3256404e32918c21e69feb0bb81ef831a4415
 
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
     - '$TRAVIS_HOME/.sonar/cache'
+    - '$HOME/.gradle/caches/'
+    - '$HOME/.gradle/wrapper/'
 
 before_deploy:
   - ssh-keyscan -t rsa -H $HOST_IP >> ${TRAVIS_HOME}/.ssh/known_hosts
