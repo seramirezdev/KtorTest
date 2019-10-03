@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
+    }
+
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'war'
+apply plugin: 'application'
+apply plugin: 'org.sonarqube'
+
+webAppDirName = 'webapp'
+
+group 'com.seramirezdev'
+version '0.0.1'
+mainClassName = "io.ktor.server.tomcat.EngineMain"
+
+sourceSets {
+    main.kotlin.srcDirs = main.java.srcDirs = ['src']
+    test.kotlin.srcDirs = test.java.srcDirs = ['test']
+    main.resources.srcDirs = ['resources']
+    test.resources.srcDirs = ['testresources']
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url 'https://kotlin.bintray.com/ktor' }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "io.ktor:ktor-server-tomcat:$ktor_version"
+    compile "ch.qos.logback:logback-classic:$logback_version"
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-auth-jwt:$ktor_version"
+    compile "io.ktor:ktor-gson:$ktor_version"
+    compile "org.jetbrains.exposed:exposed:$exposed_version"
+    compile "org.postgresql:postgresql:$postgresql_version"
+    compile "com.zaxxer:HikariCP:$hikari_version"
+
+    testCompile "io.ktor:ktor-server-tests:$ktor_version"
+}
