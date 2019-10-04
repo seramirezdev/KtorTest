@@ -26,11 +26,16 @@ before_deploy:
   - ssh-add /tmp/$DEPLOY_KEY
 
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: bash ./scripts/deploy.sh
-  on:
-    all_branches: true
+  - provider: script
+    skip_cleanup: true
+    script: bash ./scripts/deploy.sh
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: bash ./scripts/deploy.sh
+    on:
+      branch: development
 
 after_deploy:
   - ssh-add -D /tmp/$DEPLOY_KEY
