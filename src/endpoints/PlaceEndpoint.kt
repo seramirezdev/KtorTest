@@ -5,7 +5,9 @@ import com.seramirezdev.entities.Place
 import com.seramirezdev.repositories.PlaceRepository
 import com.seramirezdev.responses.Message
 import com.seramirezdev.security.authenticateUser
+import com.seramirezdev.utils.Utils
 import io.ktor.application.call
+import io.ktor.auth.authenticate
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.MultiPartData
@@ -18,32 +20,33 @@ import io.ktor.routing.*
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
-// const val PATH_IMAGES = "/home/sergio/Desarrollo/SpringBoot/images"
-const val PATH_IMAGES = "/home/seminariouniajc201901/images"
-const val PUBLIC_DIR_IMAGE = "public"
-
 fun Route.placeEndpoint(placeRepository: PlaceRepository) {
+
     route("places") {
 
-        contentType(ContentType.MultiPart.FormData) {
-            post("create") {
-                call.authenticateUser!!
+        authenticate("admin") {
+            contentType(ContentType.MultiPart.FormData) {
+                post("create") {
+                    call.authenticateUser!!
 
-                val params = call.receiveMultipart()
-                val place = getParamsToPlace(params)
-                val createPlace = placeRepository.insertPlaceAndImages(place)
+                    val params = call.receiveMultipart()
+                    val place = getParamsToPlace(params)
+                    val createPlace = placeRepository.insertPlaceAndImages(place)
 
-                if (createPlace == null) {
-                    call.respond(HttpStatusCode.NotAcceptable, Message("No se pudo crear el Lugar"))
-                } else {
-                    call.respond(HttpStatusCode.OK, createPlace)
+                    if (createPlace == null) {
+                        call.respond(HttpStatusCode.NotAcceptable, Message("No se pudo crear el Lugar"))
+                    } else {
+                        call.respond(HttpStatusCode.OK, createPlace)
+                    }
                 }
             }
         }
 
-        get {
-            call.authenticateUser!!
-            call.respond(HttpStatusCode.OK, placeRepository.getAllPlaces())
+        authenticate("user") {
+            get {
+                call.authenticateUser!!
+                call.respond(HttpStatusCode.OK, placeRepository.getAllPlaces())
+            }
         }
     }
 }
@@ -66,7 +69,7 @@ private fun getParamsToPlace(params: MultiPartData): Place {
                     }
                 }
                 is PartData.FileItem -> {
-                    val root = "$PATH_IMAGES/$PUBLIC_DIR_IMAGE"
+                    val root = "${Utils.PATH_IMAGES}/${Utils.PUBLIC_DIR_IMAGES}"
                     val extension = File(part.originalFileName!!).extension
                     val fileName = "${System.currentTimeMillis()}.$extension"
 

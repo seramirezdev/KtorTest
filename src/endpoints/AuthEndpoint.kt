@@ -5,7 +5,6 @@ import com.seramirezdev.entities.User
 import com.seramirezdev.repositories.UserRepository
 import com.seramirezdev.responses.Message
 import io.ktor.application.call
-import io.ktor.auth.UserPasswordCredential
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -16,7 +15,7 @@ fun Route.auth(userRepository: UserRepository) {
 
     post("login") {
 
-        val credentials = call.receive<UserPasswordCredential>()
+        val credentials = call.receive<User>()
         val user = userRepository.findUserByCredentials(credentials)
 
         if (user == null) {
@@ -34,7 +33,8 @@ fun Route.auth(userRepository: UserRepository) {
         if (createdUser == null) {
             call.respond(HttpStatusCode.NotAcceptable, Message(message = "No se pudo crear el usuario"))
         } else {
-            call.respond(HttpStatusCode.OK, createdUser)
+            val token = JWTConfig.makeToken(createdUser)
+            call.respond(HttpStatusCode.OK, mapOf("jwtKey" to token))
         }
     }
 }

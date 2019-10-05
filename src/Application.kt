@@ -1,7 +1,7 @@
 package com.seramirezdev
 
-import com.seramirezdev.database.DatabaseFactory
 import com.seramirezdev.config.JWTConfig
+import com.seramirezdev.database.DatabaseFactory
 import com.seramirezdev.endpoints.*
 import com.seramirezdev.repositories.CommentRepository
 import com.seramirezdev.repositories.PlaceRepository
@@ -35,11 +35,19 @@ fun Application.module(testing: Boolean = false) {
     val commentRepository = CommentRepository()
 
     install(Authentication) {
-        jwt {
+        jwt("user") {
             verifier(JWTConfig.verifier)
             realm = JWTConfig.issuer
             validate {
                 it.payload.getClaim("username").asString()?.let(userRepository::findUserByUsername)
+            }
+        }
+
+        jwt("admin") {
+            verifier(JWTConfig.verifier)
+            realm = JWTConfig.issuer
+            validate {
+                it.payload.getClaim("username").asString()?.let(userRepository::validateUserIsAdmin)
             }
         }
     }
@@ -53,9 +61,9 @@ fun Application.module(testing: Boolean = false) {
     install(Routing) {
 
         auth(userRepository)
+        placeEndpoint(placesRepository)
 
-        authenticate {
-            placeEndpoint(placesRepository)
+        authenticate("user") {
             userEndpoint(userRepository)
             commentEndpoint(commentRepository)
             imagesEndpoint()
