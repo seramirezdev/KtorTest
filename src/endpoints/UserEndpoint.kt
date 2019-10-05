@@ -15,5 +15,11 @@ fun Route.userEndpoint(userRepository: UserRepository) {
             call.authenticateUser!!
             call.respond(HttpStatusCode.OK, userRepository.getAllUsers())
         }
+        get ("favorites/{userId}") {
+            call.authenticateUser!!
+            val userId =
+                call.parameters["userId"]?.toInt() ?: throw IllegalStateException("Debe enviar el ID del usuario")
+            call.respond(HttpStatusCode.OK, userRepository.getFavoritesByUSer(userId))
+        }
     }
 }

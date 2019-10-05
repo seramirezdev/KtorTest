@@ -1,5 +1,6 @@
 package com.seramirezdev.dto
 
+import com.seramirezdev.dto.PlaceDAO.Companion.referrersOn
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -21,4 +22,5 @@ class UserDAO(id: EntityID<Int>) : IntEntity(id) {
     var username by Users.username
     var password by Users.password
     var fcmToken by Users.fcmToken
+    val favorites by FavoritesDAO referrersOn Favorites.user
 }

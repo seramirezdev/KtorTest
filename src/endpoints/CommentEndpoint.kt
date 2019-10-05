@@ -3,6 +3,7 @@ package com.seramirezdev.endpoints
 import com.seramirezdev.entities.Comment
 import com.seramirezdev.repositories.CommentRepository
 import com.seramirezdev.responses.Message
+import com.seramirezdev.security.authenticateUser
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -14,6 +15,7 @@ import io.ktor.routing.route
 fun Route.commentEndpoint(commentReposiroty: CommentRepository) {
     route("comments") {
         post("create/{userId}/{placeId}") {
+            call.authenticateUser!!
             val userId =
                 call.parameters["userId"]?.toInt() ?: throw IllegalStateException("Debe enviar el ID del usuario")
             val placeId =

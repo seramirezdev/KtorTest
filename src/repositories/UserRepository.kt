@@ -1,7 +1,9 @@
 package com.seramirezdev.repositories
 
+import com.seramirezdev.dto.FavoritesDAO
 import com.seramirezdev.dto.UserDAO
 import com.seramirezdev.dto.Users
+import com.seramirezdev.entities.Favorite
 import com.seramirezdev.entities.User
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -42,6 +44,10 @@ class UserRepository {
         UserDAO.all().map { toUser(it) }
     }
 
+    fun getFavoritesByUSer(userId : Int): List<Favorite> = transaction {
+        UserDAO.findById(userId)!!.favorites.map { toFavorite(it) }
+    }
+
     fun insertUser(user: User): User? {
         var createdUser: User? = null
 
@@ -65,6 +71,12 @@ class UserRepository {
             username = user.username,
             name = user.name,
             fcmToken = user.fcmToken ?: ""
+        )
+
+        fun toFavorite(favorites: FavoritesDAO) : Favorite = Favorite(
+            id = favorites.id.value,
+            place = PlaceRepository.toPlace(favorites.place),
+            user = UserRepository.toUser(favorites.user)
         )
     }
 }

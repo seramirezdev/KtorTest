@@ -1,9 +1,6 @@
 package com.seramirezdev.database
 
-import com.seramirezdev.dto.Comments
-import com.seramirezdev.dto.Images
-import com.seramirezdev.dto.Places
-import com.seramirezdev.dto.Users
+import com.seramirezdev.dto.*
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
@@ -21,7 +18,7 @@ object DatabaseFactory {
 
     private fun createTables() {
         transaction {
-            SchemaUtils.createMissingTablesAndColumns(Users, Comments, Places, Images)
+            SchemaUtils.createMissingTablesAndColumns(Users, Comments, Places, Images, Favorites)
 
             if (Users.selectAll().count() == 0) {
                 Users.insert {
