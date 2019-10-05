@@ -31,6 +31,7 @@ fun Route.placeEndpoint(placeRepository: PlaceRepository) {
 
                     val params = call.receiveMultipart()
                     val place = getParamsToPlace(params)
+
                     val createPlace = placeRepository.insertPlaceAndImages(place)
 
                     if (createPlace == null) {
