@@ -10,7 +10,6 @@ object JWTConfig {
 
     const val issuer = "ktor.io"
     private const val secret = "mySecretKey"
-    private const val validityInMs = 36_000_00 * 10
     private val algorithm = Algorithm.HMAC512(secret)
 
     val verifier: JWTVerifier = JWT
@@ -23,8 +22,5 @@ object JWTConfig {
         .withIssuer(issuer)
         .withClaim("id", user.id)
         .withClaim("username", user.username)
-        .withExpiresAt(getExpiration())
         .sign(algorithm)
-
-    private fun getExpiration() = Date(System.currentTimeMillis() + validityInMs)
 }
