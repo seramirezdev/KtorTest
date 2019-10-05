@@ -21,13 +21,15 @@ object DatabaseFactory {
 
     private fun createTables() {
         transaction {
-            SchemaUtils.create(Users, Comments, Places, Images)
+            SchemaUtils.createMissingTablesAndColumns(Users, Comments, Places, Images)
 
             if (Users.selectAll().count() == 0) {
                 Users.insert {
                     it[name] = "Sergio"
                     it[username] = "seramirezdev"
                     it[password] = "0000"
+                    it[role] = "admin"
+                    it[fcmToken] = ""
                 }
             }
         }

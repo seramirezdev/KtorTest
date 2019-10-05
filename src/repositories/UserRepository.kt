@@ -3,18 +3,23 @@ package com.seramirezdev.repositories
 import com.seramirezdev.dto.UserDAO
 import com.seramirezdev.dto.Users
 import com.seramirezdev.entities.User
-import io.ktor.auth.UserPasswordCredential
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 
 class UserRepository {
 
-    fun findUserByCredentials(credentials: UserPasswordCredential): User? =
+    fun findUserByCredentials(credentials: User): User? =
         transaction {
-            UserDAO.find {
-                (Users.username eq credentials.name) and (Users.password eq credentials.password)
-            }.map { toUser(it) }.firstOrNull()
+            val user = UserDAO.find {
+                (Users.username eq credentials.username) and (Users.password eq credentials.password!!)
+            }
+
+            if (!user.empty())
+                Users.update({ Users.id eq user.first().id }) { it[fcmToken] = credentials.fcmToken }
+
+            user.map { toUser(it) }.firstOrNull()
         }
 
 
@@ -22,6 +27,13 @@ class UserRepository {
         transaction {
             UserDAO.find {
                 Users.username eq username
+            }.map { toUser(it) }.first()
+        }
+
+    fun validateUserIsAdmin(username: String): User =
+        transaction {
+            UserDAO.find {
+                (Users.username eq username) and (Users.role eq "admin")
             }.map { toUser(it) }.first()
         }
 
@@ -38,6 +50,7 @@ class UserRepository {
                 name = user.name
                 username = user.username
                 password = user.password!!
+                fcmToken = user.fcmToken
             }
 
             createdUser = toUser(userDAO)
@@ -50,7 +63,8 @@ class UserRepository {
         fun toUser(user: UserDAO) = User(
             id = user.id.value,
             username = user.username,
-            name = user.name
+            name = user.name,
+            fcmToken = user.fcmToken ?: ""
         )
     }
 }
